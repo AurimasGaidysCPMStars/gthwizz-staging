@@ -4,16 +4,14 @@ import Head from 'next/head'
 import { useRouter } from 'next/router';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { briefFileState, briefState, companyState, emailState, fromLanguageState, nameState, phoneState, projectTypeState, toLanguageState, wordCountState, industryState, submitState, contentFileState, contentTextState, phoneErrorState, emailErrorState, recurringState, dicIdState } from '../atoms/language';
-import { LanguageData } from '../models/languages';
 import { ProjectStatus, RequestData } from '../models/request';
 import { firestore } from '../services/clientApp';
 import styles from '../styles/Home.module.css'
 import { Layout } from '../components/layout'
-import { useState } from 'react';
 import moment from 'moment';
 import Script from 'next/script'
 
-export default function Home() {
+export default function ContactInfo() {
     const wc = useRecoilValue(wordCountState);
     const pt = useRecoilValue(projectTypeState);
 
@@ -26,14 +24,6 @@ export default function Home() {
     const [phone, setPhone] = useRecoilState(phoneState);
     const [submitted, setSubmitted] = useRecoilState(submitState);
     const [recurring, setRecurring] = useRecoilState(recurringState);
-    
-    const fl = useRecoilValue(fromLanguageState);
-    const tl = useRecoilValue(toLanguageState);
-    const brief = useRecoilValue(briefState);
-    const briefFiles = useRecoilValue(briefFileState);
-    const industry = useRecoilValue(industryState);
-    const contentText = useRecoilValue(contentTextState);
-    const contentFiles = useRecoilValue(contentFileState);
 
     // const fromLanguage = useRecoilValue(fromLanguageState);
     // const toLanguage = useRecoilValue(toLanguageState);
@@ -94,34 +84,43 @@ export default function Home() {
                         <div className='flex space-x-4'>
                             <div className='w-full'>
                                 <h3 className="text-l font-bold p-2">
-                                    From language
+                                    Name
                                 </h3>
-                                <h3 className="text-l font-bold p-2">
-                                    {fl}
-                                </h3>
+                                <input type={"text"} name={"name"} value={name} onChange={(e) => {
+                                    setName(e.target.value)
+                                }} className="w-full p-2 border hover:border-sky-500/100" />
                             </div>
+
                             <div className='w-full'>
                                 <h3 className="text-l font-bold p-2">
-                                    To language
+                                    Company
                                 </h3>
-                                <h3 className="text-l font-bold p-2">
-                                    {tl}
-                                </h3>
+                                <input type={"text"} name={"company"} value={company} onChange={(e) => {
+                                    setCompany(e.target.value);
+                                }} className="w-full p-2 border hover:border-sky-500/100" />
                             </div>
+
                         </div>
-                        
                         <h3 className="text-l font-bold p-2">
-                            {industry}
+                            Email *
                         </h3>
-                       
+                        <input type={"email"} value={email} onChange={(e) => {
+                            setEmail(e.target.value); setEmailError(false);
+                        }} className="w-full p-2 border hover:border-sky-500/100" />
+                        {emailError && <h3 className="text-l font-bold p-2 text-red-600">
+                            Email is invalid
+                        </h3>}
+
+
                         <h3 className="text-l font-bold p-2">
-                            {brief}
+                            Phone Number *
                         </h3>
-                       
-                        <h3 className="text-l font-bold p-2">
-                            {briefFiles.map(x => x.fileName).join(", ")}
-                        </h3>
-                        
+                        <input type={"tel"} value={phone} onChange={(e) => {
+                            setPhone(e.target.value); setPhoneError(false);
+                        }} className="w-full p-2 border hover:border-sky-500/100" />
+                        {phoneError && <h3 className="text-l font-bold p-2 text-red-600">
+                            Phone is invalid
+                        </h3>}
                         <div className='h-4' />
                         <div className="flex" onClick={() => { setRecurring(!recurring) }}>
                             <input checked={recurring} className=" h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-sky-500/100  checked:border-sky-500/100  focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" />
@@ -129,6 +128,7 @@ export default function Home() {
                                 Our company requires ongoing translation services (Get volume discount)
                             </label>
                         </div>
+
 
                         <NextButton />
                     </div>}
@@ -142,6 +142,7 @@ export default function Home() {
 
 
 const NextButton = () => {
+    const router = useRouter();
     const email = useRecoilValue(emailState);
     const phone = useRecoilValue(phoneState);
     const name = useRecoilValue(nameState);
@@ -152,12 +153,13 @@ const NextButton = () => {
     const briefFiles = useRecoilValue(briefFileState);
     const industry = useRecoilValue(industryState);
     const [submitted, setSubmitted] = useRecoilState(submitState);
+    const [docsId, setDocId] = useRecoilState(dicIdState);
+
     const contentText = useRecoilValue(contentTextState);
     const contentFiles = useRecoilValue(contentFileState);
     const pt = useRecoilValue(projectTypeState);
     const wc = useRecoilValue(wordCountState);
     const recurring = useRecoilValue(wordCountState);
-    const [docsId, setDocId] = useRecoilState(dicIdState);
 
     const disabled = (email || "") == "" || (phone || "") == "";
 
@@ -180,10 +182,8 @@ const NextButton = () => {
     }
 
     const handleClick = (e: any) => {
-        const docId = docsId == "" ? email + "-" + +moment() : docsId;
         e.preventDefault()
-
-
+        const docId = docsId == "" ? email + "-" + +moment() : docsId;
 
         const valid = validateEmail(email) && validatePhone(phone)
 
@@ -230,7 +230,8 @@ const NextButton = () => {
         };
 
         setDoc(docRef, OrderDoc).then(() => {
-            setSubmitted(true);
+            setDocId(OrderDoc.id);
+            router.push("languages");
         });
     }
 

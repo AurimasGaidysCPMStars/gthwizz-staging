@@ -37,6 +37,7 @@ export const Sidebar = () => {
                 <h2 className="hidden md:flex text-2xl font-bold pb-5">Hey! Let’s get started</h2>
             </div>
             <div className='flex md:flex-col space-y-0 md:space-y-4 space-x-4 md:space-x-0'>
+                <RenderButton title="Contact info" selected={router.asPath == "/contact-info"} completed={true} link="contact-info" />
                 <RenderButton title="Language Selection" selected={router.asPath == "/languages"} completed={langValid} link="languages" />
                 <RenderButton title="Project Details" selected={router.asPath == "/project-brief"} completed={industryValid} link="project-brief" />
                 <RenderButton title="Content Specifics" selected={router.asPath == "/content"} completed={!wordCountValid} link="content" />

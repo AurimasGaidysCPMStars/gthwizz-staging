@@ -138,3 +138,10 @@ export const recurringState = atom<boolean>({
     key: 'recurringState',
     default: false,
 });
+
+export const dicIdState = atom<string>({
+    key: 'dicIdState',
+    default: "",
+    // effects_UNSTABLE: [persistAtom],
+
+});

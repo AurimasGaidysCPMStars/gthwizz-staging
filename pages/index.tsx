@@ -7,10 +7,10 @@ import Script from 'next/script';
 
 export default function Home() {
 
-  const router = useRouter();
+    const router = useRouter();
 
-  useEffect(() => {
-    router.push("languages");
+    useEffect(() => {
+      router.push("contact-info");
   }, []);
 
   return (
