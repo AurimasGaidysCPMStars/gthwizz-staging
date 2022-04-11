@@ -57,29 +57,7 @@ export default function ContactInfo() {
                     </div> */}
                     <h2 className='text-3xl font-bold pb-5 hidden md:flex '>{submitted ? "Request submitted." : "Submit request"}</h2>
 
-                    {submitted && <div>
-                        <Script id="google-analytics" strategy="afterInteractive">
-                            {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){window.dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'UA-171557064-1');
-          var callback = function () {
-            console.log('chat initiated');
-          };
-
-          gtag('event', 'conversion', {
-            'send_to': 'AW-805141531/ecJ7CIKQiecCEJv49f8C',
-            'event_callback': callback
-        });
-        `}
-                        </Script>
-                        <h3 className="text-l font-bold p-2">
-                            Your request have been submitted successfully. Hang in tight we will contact you soon.
-                        </h3>
-                    </div>}
-                    {!submitted && <div>
+                    { <div>
                         <div className='h-4' />
                         <div className='flex space-x-4'>
                             <div className='w-full'>
