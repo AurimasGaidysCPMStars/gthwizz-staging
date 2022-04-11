@@ -235,8 +235,8 @@ const NextButton = () => {
         });
     }
 
-    return <button disabled={disabled} onClick={handleClick} className='bg-sky-500/100 p-2 pl-4 pr-2 rounded-full flex space-x-2'>
-        <p className="text-white">Submit request</p>
+    return <button onClick={handleClick} className='bg-sky-500/100 p-2 pl-4 pr-2 rounded-full flex space-x-2'>
+        <p className="text-white">Next</p>
         <ArrowRightIcon className="w-6 h-6 text-white p-1" />
     </button>
 }

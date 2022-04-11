@@ -121,7 +121,7 @@ export const contentState = atom<string>({
 
 export const submitState = atom<boolean>({
     key: 'submitState',
-    default: false,
+    default: true,
 });
 
 export const emailErrorState = atom<boolean>({

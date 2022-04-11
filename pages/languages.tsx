@@ -28,7 +28,7 @@ export default function Home() {
                     <LanguagePickerTo />
                     <p className='text-red-600'>{error}</p>
                     <div className='flex justify-between p-5 align-middle'>
-                        <p>Step 1 of 5</p>
+                        <p>Step 2 of 5</p>
                         <LanguageLoader />
                         <NextButton setError={setError} />
                     </div>
